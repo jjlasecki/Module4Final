@@ -10,6 +10,7 @@
 </head>
 <body>
     <section id="landing">
+        <img src="./assets/pexels-clickerhappy-390089.jpg" class="background__img" alt="">
         <nav>
            <div class="overlay"></div>
             <div class="row nav__row">
@@ -55,7 +56,7 @@
                         <i class="fas fa-search"></i>
                     </div>
                 </div>
-            </div>
+        </div>
         </nav>
         <div class="modal">
             <button class="btn__menu btn__menu--close" onClick="closeMenu()">
@@ -85,7 +86,39 @@
         
     </section>
     <section id="search">
-
+        <div class="progress-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <div id="filter" class="content__wrapper-progress">
+            <h1 class="search__info">
+                <span class="black-text">Search Results:</span>
+            </h1>
+            <div class="year__filter">
+               <h2 class="search__h2"><span class="black-text">Year Range:  </span>1888 to Present</h2> 
+               <div class="slider__wrapper">
+                <div role="slider" aria-valuemin="1888" aria-valuemax="Present" aria-orientation="horizontal" class="el-slider" aria-valuetext="1888-Present" aria-label="slider between 1888 and present">
+                    <div class="el-slider__runway">
+                        <div class="el-slider__bar">
+                            <div class="el-slider__button--wrapper" style="left: 0%;">
+                                <div class="el-slider__button--left el-tooltip" aria-describedby="el-tooltip-9877" tabindex="0"></div>
+                            </div>
+                            <div class="el-slider__button--wrapper" style="left: 100%;">
+                                <div class="el-slider__button el-tooltip" aria-describedby="el-tooltip-4384" tabindex="0"></div>
+                            </div>
+                            <div>
+                                <div class="el-slider__stop el-slider__marks-stop" style="left: 0%;"></div>
+                                <div class="el-slider__stop el-slider__marks-stop" style="left: 100%;"></div>
+                            </div>
+                            <div class="el-slider__marks">
+                                <div class="el-slider__marks-text" style="left: 0%;">1888</div>
+                                <div class="el-slider__marks-text" style="left: 100%;">Present</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               </div>
+            </div>
+        </div>
     </section>
     
 </body>
