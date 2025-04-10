@@ -554,6 +554,25 @@ input {
     margin-top: 16px;
 }
 
+.search-list {
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.search {
+  width: 50%
+}
+
+.search-card {
+  background-color: #fff;
+  box-shadow: 0 4px 8px 0 rgb(0, 0, 0, 0.2);
+  margin: 12px;
+  transition: 0.3s;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
   /*
 MEDIA
 */

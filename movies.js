@@ -15,18 +15,26 @@ window.onload = function() {
         }
     }
 }
+
 async function results() {
     const search = await fetch("https://www.omdbapi.com/?apikey=dcd04354&s=fast")
-    let searchData = await search.json();
-    
-    searchData.map(search => `<div class="search-card">
-        <div class="search-card__container">
-            <p>movie.title</p>
-            <p><a href="https://posterurl.com"></a></p>
-            <p><b>Year of Release:</b>9999</p>
-        </div>
-    </div>`)
-    
+    const searchData = await search.json();
+    const results = searchData.Search;
+    const searchListEL = document.querySelector('.search-list');
+    searchListEL.innerHTML = searchData.Search.map((search) => searchHTML(search)).join("");
 }
 
 results();
+
+function searchHTML(search) {
+    return `<div class="search-card">
+        <div class="search-card__container">
+            <p>${search.title}</p>
+            <p><a href="https://${search.poster}" target="_blank">
+            ${search.poster}</a></p>
+            <p><b>Year of Release:</b>${search.year}</p>
+        </div>
+    </div>`;
+}
+
+
