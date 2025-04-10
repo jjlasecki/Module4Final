@@ -1,4 +1,4 @@
-
+https://www.omdbapi.com/?apikey=dcd04354&s=fast
 
 
 window.onload = function() {
@@ -15,3 +15,15 @@ window.onload = function() {
         }
     }
 }
+
+async function main() {
+    const movie = await fetch(`https://www.omdbapi.com/?apikey=dcd04354&s=fast`)
+    const movieData =  await movie.json();
+    const movieListEl = document.querySelector('.movie-list');
+    console.log(movieData);
+    movieListEl.innerHTML = movieData.map((movie) => movieHTML(movie)).join("");
+}
+
+main();
+
+
