@@ -8,22 +8,25 @@ window.onload = function() {
 
     function frame() {
         if (width >= 100) {
-            clearInterval(interval);
+            width = 0;
         } else {
             width++;
             progressBar.style.width = width + '%';
         }
     }
 }
-
-async function main() {
-    const movie = await fetch(`https://www.omdbapi.com/?apikey=dcd04354&s=fast`)
-    const movieData =  await movie.json();
-    const movieListEl = document.querySelector('.movie-list');
-    console.log(movieData);
-    movieListEl.innerHTML = movieData.map((movie) => movieHTML(movie)).join("");
+async function results() {
+    const search = await fetch("https://www.omdbapi.com/?apikey=dcd04354&s=fast")
+    let searchData = await search.json();
+    
+    searchData.map(search => `<div class="search-card">
+        <div class="search-card__container">
+            <p>movie.title</p>
+            <p><a href="https://posterurl.com"></a></p>
+            <p><b>Year of Release:</b>9999</p>
+        </div>
+    </div>`)
+    
 }
 
-main();
-
-
+results();
