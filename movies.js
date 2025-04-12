@@ -17,30 +17,51 @@ https: window.onload = function () {
 
 
 const searchListEl = document.querySelector(".search");
-const title = localStorage.getItem("title");
 
 async function onSearchChange(event) {
-  const title = event.target.value;
-  renderMovie(title);
+  const searchTerm = event.target.value;
+  renderMovie(searchTerm);
 }
 
-async function renderMovie(title) {
-  const title = await fetch(
-    `https://www.omdbapi.com/?apikey=dcd04354&s=${title}`
-  );
-  const titleData = await title.json();
-  searchListEl.innerHTML = titleData.map((title) => titleHTML(title)).join("");
+async function renderMovie(searchTerm = "") {
+  try {
+    const response = await fetch(
+      `https://www.omdbapi.com/?apikey=dcd04354&s=${searchTerm}`
+    );
+    
+    const data = await response.json();
+    console.log("API Response:", data);
+    
+    if (!data || data.Response === "False") {
+      searchListEl.innerHTML = `<div class="no-results">No movies found. Try another search term.</div>`;
+      return;
+    }
+    
+    searchListEl.innerHTML = data.Search.map((movie) => {
+      console.log("Movie data:", movie);
+      return titleHTML(movie);
+    }).join("");
+  } catch (error) {
+    console.error("Error fetching movie data:", error);
+    searchListEl.innerHTML = `<div class="error">Something went wrong. Please try again.</div>`;
+  }
 }
 
-function titleHTML(title) {
+function titleHTML(movie) {
+  // Make sure we have valid data
+  const posterUrl = movie.Poster && movie.Poster !== "N/A" 
+    ? movie.Poster 
+    : '/no_poster.png';
+    
   return `
      <div class="search-card__container">
         <div class="card">
-            <div class="title">${title.title}</div>
-            <a href="${poster}" class="poster"></a>
-            <div class="year">Year of Release: ${title.year} </div>
-    </div>    
-    `;
+            <div class="title">${movie.Title || 'Unknown Title'}</div>
+            <a class="poster">
+              <img src="${posterUrl}" alt="${movie.Title || 'Movie poster'}">
+            </a>
+            <div class="year">Year of Release: ${movie.Year || 'Unknown'}</div>
+        </div>    
+     </div>
+  `;
 }
-
-renderMovie();
