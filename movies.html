@@ -52,6 +52,7 @@
                         type="text"
                         id="searchBar"
                         placeholder="Search by Title or Year"
+                        onchange="onSearchChange(event)"
                     />
                     <div class="search__wrapper">
                         <i class="fas fa-search"></i>
@@ -128,10 +129,11 @@
                     <div class="search">
                         <div class="search-card">
                             <div class="search-card__container">
-                                    <p>movie.title</p>
-                                    <p><a href="https://posterurl.com"></a></p>
-                                    <p><b>Year of Release:</b>9999</p>
-                            </div>
+                                <div class="card">
+                                <div class="title"></div>
+                                <a href="" class="poster"></a>
+                                <div class="year">Year of Release: </div>
+                            </div>    
                         </div>
                     </div>
                 </div>
@@ -139,5 +141,6 @@
         </div>
     </section>
     
+    </template>
 </body>
 </html>
