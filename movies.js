@@ -17,14 +17,29 @@ https: window.onload = function () {
 
 
 const searchListEl = document.querySelector(".search");
+const currentMovies = [];
+
+document.addEventListener("DOMContentLoaded", function() {
+const searchBarEl = document.querySelector("#searchBar");
+if (searchBarEl) {
+  searchBarEl.addEventListener("input", onSearchChange);
+}
+
+const filterEl = document.querySelector("#movieFilter");
+if (filterEl) {
+  filterEl.addEventListener("change", filterResults);
+}
+});
 
 async function onSearchChange(event) {
   const searchTerm = event.target.value;
   renderMovie(searchTerm);
 }
-
 async function renderMovie(searchTerm = "") {
   try {
+    const loadingEl = document.querySelector('.loading');
+    if (loadingEl) loadingEl.style.display = 'block';
+    
     const response = await fetch(
       `https://www.omdbapi.com/?apikey=dcd04354&s=${searchTerm}`
     );
@@ -32,23 +47,38 @@ async function renderMovie(searchTerm = "") {
     const data = await response.json();
     console.log("API Response:", data);
     
+    if (loadingEl) loadingEl.style.display = 'none';
+
     if (!data || data.Response === "False") {
       searchListEl.innerHTML = `<div class="no-results">No movies found. Try another search term.</div>`;
       return;
     }
-    
-    searchListEl.innerHTML = data.Search.map((movie) => {
-      console.log("Movie data:", movie);
-      return titleHTML(movie);
-    }).join("");
-  } catch (error) {
-    console.error("Error fetching movie data:", error);
-    searchListEl.innerHTML = `<div class="error">Something went wrong. Please try again.</div>`;
-  }
+
+    const limitedResults = data.Search.slice(0, 8);
+
+    const filterDropdown = document.querySelector('select#filter');
+    if (filterDropdown) {
+        filterDropdown.selectedIndex = 0;
+    }
+
+    displayMovies(currentMovies);
+} catch (error) {
+  console.error("Error fetching movie data:", error);
+  searchListEl.innerHTML = `<div class="error">Something went wrong. Please try again.</div>`;
+  
+  // Hide loading indicator
+  const loadingEl = document.querySelector('.loading');
+  if (loadingEl) loadingEl.style.display = 'none';
 }
+}
+    
+    function displayMovies(movie){
+        searchListEl.innerHTML = currentMovies.map((movie) => {
+            return titleHTML(movie);
+        }).join("");
+    }
 
 function titleHTML(movie) {
-  // Make sure we have valid data
   const posterUrl = movie.Poster && movie.Poster !== "N/A" 
     ? movie.Poster 
     : '/no_poster.png';
@@ -64,4 +94,22 @@ function titleHTML(movie) {
         </div>    
      </div>
   `;
+}
+
+function filterResults(event) {
+    const filterValue = event.target.vaule;
+
+    if (!currentMovies.length) {
+        return; 
+    }
+
+    let filteredMovies = [...currentMovies];
+
+    if (filterValue === "LOW_TO_HIGH") {
+        filteredMovies.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+    } else if (filterValue === "HIGH_TO_LOW") {
+        filteredMovies.sort((a, b) => parseInt(a.Year) - parseInt(b.year));
+    }
+
+    displayMovies(filteredMovies);
 }
