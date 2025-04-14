@@ -56,10 +56,13 @@ async function renderMovie(searchTerm = "") {
 
     const limitedResults = data.Search.slice(0, 8);
 
-    const filterDropdown = document.querySelector('select#filter');
+    const filterDropdown = document.querySelector('movieFilter');
     if (filterDropdown) {
         filterDropdown.selectedIndex = 0;
     }
+
+    currentMovies.length = 0;
+    currentMovies.push(...limitedResults);
 
     displayMovies(currentMovies);
 } catch (error) {
@@ -97,7 +100,7 @@ function titleHTML(movie) {
 }
 
 function filterResults(event) {
-    const filterValue = event.target.vaule;
+    const filterValue = event.target.value;
 
     if (!currentMovies.length) {
         return; 
@@ -108,7 +111,7 @@ function filterResults(event) {
     if (filterValue === "LOW_TO_HIGH") {
         filteredMovies.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
     } else if (filterValue === "HIGH_TO_LOW") {
-        filteredMovies.sort((a, b) => parseInt(a.Year) - parseInt(b.year));
+        filteredMovies.sort((a, b) => parseInt(a.Year) - parseInt(b.Year));
     }
 
     displayMovies(filteredMovies);
