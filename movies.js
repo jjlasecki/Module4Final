@@ -56,11 +56,6 @@ async function renderMovie(searchTerm = "") {
 
     const limitedResults = data.Search.slice(0, 8);
 
-    const filterDropdown = document.querySelector('movieFilter');
-    if (filterDropdown) {
-        filterDropdown.selectedIndex = 0;
-    }
-
     currentMovies.length = 0;
     currentMovies.push(...limitedResults);
 
@@ -76,7 +71,7 @@ async function renderMovie(searchTerm = "") {
 }
     
     function displayMovies(movie){
-        searchListEl.innerHTML = currentMovies.map((movie) => {
+        searchListEl.innerHTML = movie.map((movie) => {
             return titleHTML(movie);
         }).join("");
     }
